@@ -23,7 +23,6 @@ function bubbleSort(nums) {
         sorted[i] = sorted[i+1];
         sorted[i+1] = tmp;
         swapped = true;
-        i--;
       }
     }
   }
