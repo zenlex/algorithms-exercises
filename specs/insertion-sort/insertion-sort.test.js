@@ -22,6 +22,7 @@ function insertionSort(nums) {
     let j;
     for (j = i - 1; nums[j] > insert && j >= 0; j--) {
       nums[j + 1] = nums[j];
+
     }
 
     //do the insert
