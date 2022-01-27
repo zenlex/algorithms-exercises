@@ -11,14 +11,26 @@
   is called on a list with length less-than-or-equal-to 1. In the base case, just return the array given.
 
 */
-
 function quickSort(nums) {
-  // code goes here
+  // base case
+  if(nums.length <= 1) return nums;
+
+  //take pivot and split
+  const pivot = nums[nums.length-1];
+  const left = [];
+  const right = [];
+  for(const num of nums){
+    if(num < pivot) left.push(num);
+    if(num > pivot) right.push(num);
+  }
+
+  //concatenate sorted lists
+  return quickSort(left).concat(pivot).concat(quickSort(right)) 
 }
 
 // unit tests
 // do not modify the below code
-test.skip("quickSort", function () {
+test("quickSort", function () {
   const input = [10, 8, 2, 1, 6, 3, 9, 4, 7, 5];
   const answer = quickSort(input);
 
