@@ -17,17 +17,60 @@ right - Node/object - the right node which itself may be another tree
 */
 
 class Tree {
-  // code goes here
+  constructor(arr) {
+    this.root = null;
+  }
+  add(val) {
+    const newNode = new Node(val)
+    if (this.root === null) {
+      this.root = newNode
+      return newNode
+    }
+    let currNode = this.root
+    while (true) {
+      if (val < currNode.value) {
+        if (currNode.left) {
+          currNode = currNode.left
+        } else {
+          currNode.left = newNode;
+          break;
+        }
+      } else {
+        if (currNode.right) {
+          currNode = currNode.right
+        } else {
+          currNode.right = newNode;
+          break;
+        }
+      }
+    }
+  }
+  toJSON() {
+    return JSON.stringify(this.root.serialize(), null, 4)
+  }
+
+  toObject() {
+    return this.root.serialize()
+  }
 }
 
-// you might consider using a Node class too
-// class Node {
-//   // code maybe goes here
-// }
+class Node {
+  constructor(value = null, left = null, right = null) {
+    this.value = value
+    this.left = left
+    this.right = right
+  }
+  serialize() {
+    const result = { value: this.value }
+    result.left = this.left === null ? null : this.left.serialize(this.left)
+    result.right = this.right === null ? null : this.right.serialize(this.right)
+    return result;
+  }
+}
 
 // unit tests
 // do not modify the below code
-describe.skip("Binary Search Tree", function () {
+describe("Binary Search Tree", function () {
   it("creates a correct tree", () => {
     const nums = [3, 7, 4, 6, 5, 1, 10, 2, 9, 8];
     const tree = new Tree();

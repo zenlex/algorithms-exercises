@@ -18,12 +18,62 @@
 */
 
 class ArrayList {
-  // code goes here
+  constructor(length = 0) {
+    this.length = length;
+    this.data = {}
+  }
+
+  push(val) {
+    this.data[this.length] = val;
+    this.length++;
+    return this.length;
+  }
+
+  pop() {
+    const elem = this.data[this.length - 1];
+    this.length--;
+    //TODO: delete element
+    return elem;
+  }
+
+  shift() {
+    const elem = this.data[0];
+    for (let i = 1; i < this.length; i++) {
+      this.data[i - 1] = this.data[i];
+    }
+    delete this.data[this.length]
+    this.length--;
+    return elem;
+  }
+
+  unshift(val) {
+    for (let i = this.length - 1; i >= 0; i++) {
+      this.data[i + 1] = this.data[i];
+    }
+    this.length++;
+    this.data[0] = val;
+    return this.length;
+  }
+
+  get(index) {
+    return this.data[index];
+  }
+
+  delete(index) {
+    for (let i = index; i < this.length; i++) {
+      this.data[i] = this.data[i + 1];
+      delete this.data[this.length - 1];
+      this.length--;
+    }
+  }
+  serialize() {
+    return this.data;
+  }
 }
 
 // unit tests
 // do not modify the below code
-describe.skip("ArrayList", function () {
+describe("ArrayList", function () {
   const range = (length) =>
     Array.apply(null, { length: length }).map(Number.call, Number);
   const abcRange = (length) =>

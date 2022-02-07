@@ -25,12 +25,11 @@
 
 class LinkedList {
   constructor() {
-    this.head = null;
-    this.tail = null;
     this.length = 0;
+    this.head = this.tail = null;
   }
-  push(value) {
-    const node = new Node(value);
+  push(val) {
+    const node = new Node(val, null);
     this.length++;
     if (!this.head) {
       this.head = node;
@@ -40,49 +39,67 @@ class LinkedList {
     this.tail = node;
   }
   pop() {
-    return this.delete(this.length - 1);
-  }
-  _find(index) {
-    if (index >= this.length) return null;
-    let current = this.head;
-    for (let i = 0; i < index; i++) {
-      current = current.next;
+    if (!this.head) return null;
+    if (this.head === this.tail){
+      const node = this.head;
+      this.head = this.tail = null;
+      return node.value
     }
-
-    return current;
+    const result = this.tail;
+    let currNode = this.head;
+    while (currNode.next !== this.tail) {
+      currNode = currNode.next;
+    }
+    currNode.next = null;
+    this.tail = currNode;
+    this.length--;
+    return result.value;
   }
   get(index) {
     const node = this._find(index);
-    if (!node) return void 0;
-    return node.value;
+    return node ? node.value : null
   }
   delete(index) {
-    if (index === 0) {
-      const head = this.head;
-      if (head) {
-        this.head = head.next;
-      } else {
-        this.head = null;
-        this.tail = null;
-      }
+    let deletedNode;
+    if (index > this.length - 1) return 'invalid index - out of bounds'
+    if (index === 0){
+      deletedNode = this.head
+      this.head = this.head.next
       this.length--;
-      return head.value;
+      return deletedNode
     }
-
-    const node = this._find(index - 1);
-    const excise = node.next;
-    if (!excise) return null;
-    node.next = excise.next;
-    if (!node.next) this.tail = node.next;
+    if (index === this.length -1){
+      return this.pop()
+    }
+    let currNode = this._find(index - 1);
+    deletedNode = currNode.next
+    currNode.next = deletedNode.next;
     this.length--;
-    return excise.value;
+    return deletedNode.value
+  }
+  _find(index){
+    let currNode = this.head;
+    for(let i = 0; i < index; i++){
+      currNode = currNode.next
+    }
+    return currNode;
+  }
+  serialize(){
+    const serial = [];
+    let currNode = this.head;
+    if (!currNode) return serial;
+    while(current) {
+      serial.push(current.value);
+      current = current.nets;
+    }
+    return serial;
   }
 }
 
 class Node {
-  constructor(value) {
+  constructor(value, next) {
     this.value = value;
-    this.next = null;
+    this.next = next;
   }
 }
 

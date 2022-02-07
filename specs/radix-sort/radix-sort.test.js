@@ -10,12 +10,29 @@
 */
 
 function radixSort(array) {
-  // code goes here
+  const maxKeyLen = Math.max(array).toString().length;
+  const buckets = Array(10).fill(null).map(() => []);
+
+  for (let i = 0; i <= maxKeyLen; i++) {
+    // enqueue the numbers based on least significant digit, shifting left each loop
+    while (array.length > 0) {
+      let numToSort = array.shift()
+      const bucket = Math.floor((numToSort / Math.pow(10, i)) % 10);
+      buckets[bucket].push(numToSort)
+    }
+    //dequeue the numbers back to the main array
+    for (let bucket = 0; bucket < buckets.length; bucket++) {
+      while (buckets[bucket].length > 0) {
+        array.push(buckets[bucket].shift())
+      }
+    }
+  }
+  return array;
 }
 
 // unit tests
 // do not modify the below code
-describe.skip("radix sort", function () {
+describe("radix sort", function () {
   it("should sort correctly", () => {
     const nums = [
       20,
