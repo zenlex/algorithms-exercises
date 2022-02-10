@@ -59,7 +59,8 @@ class Node {
       if (!this.right || this.right.height < this.left.height) {
         this.height = this.left.height + 1;
       }
-    } else {
+    }
+    if (value > this.value) {
       // go right
 
       if (this.right) {

@@ -11,13 +11,11 @@ const mergeSort = (nums) => {
   const pivot = Math.ceil(nums.length / 2);
   const left = nums.slice(0, pivot);
   const right = nums.slice(pivot);
-  console.log({ nums, pivot, left, right });
 
   return mergeArrays(mergeSort(left), mergeSort(right));
 };
 
 const mergeArrays = (leftArr = [], rightArr = []) => {
-  console.log('merging: ', { leftArr, rightArr });
   const result = [];
   while (leftArr.length > 0 && rightArr.length > 0) {
     if (leftArr[0] < rightArr[0]) {
