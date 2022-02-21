@@ -13,35 +13,51 @@ const h3 = (string) =>
 // `add` adds a string to the bloom filter and returns void (nothing, undefined)
 // `contains` takes a string and tells you if a string is maybe in the bloom filter
 class BloomFilter {
-  // you'll probably need some instance variables
-  add(string) {
-    // code here
+  constructor(filterSize = 100) {
+    this.filter = Array(filterSize).fill(0);
   }
+
+  getHashes(string) {
+    const hashes = [];
+    hashes.push(h1(string));
+    hashes.push(h2(string));
+    hashes.push(h3(string));
+    return hashes;
+  }
+
+  add(string) {
+    const hashes = this.getHashes(string);
+    for (const hash of hashes) {
+      this.filter[hash] = 1;
+    }
+  }
+
   contains(string) {
-    // code here
+    const hashes = this.getHashes(string);
+    return hashes.every(hash => this.filter[hash])
   }
 }
 
 // unit tests
 // do not modify the below code
-describe.skip("BloomFilter", function () {
+describe("BloomFilter", function () {
   let bf;
   beforeEach(() => {
     bf = new BloomFilter();
   });
-  test.skip("returns false when empty", () => {
+  test("returns false when empty", () => {
     expect(bf.contains("Brian")).toBe(false);
     expect(bf.contains("Sarah")).toBe(false);
     expect(bf.contains("Simona")).toBe(false);
   });
-  test.skip("handles one item", () => {
+  test("handles one item", () => {
     expect(bf.contains("Brian")).toBe(false);
     bf.add("Brian");
     expect(bf.contains("Brian")).toBe(true);
     expect(bf.contains("Sarah")).toBe(false);
     expect(bf.contains("Simona")).toBe(false);
   });
-  test.skip("handles many items", () => {
+  test("handles many items", () => {
     const names = [
       "Brian",
       "Simona",
